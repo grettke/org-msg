@@ -18,14 +18,14 @@ Outlook email are really poor compared to what can be achieved by [[https://orgm
 
 The *OrgMsg* mode keys are the usual key combination used in either [[https://orgmode.org/][Org mode]] or [[https://www.gnu.org/software/emacs/manual/html_mono/message.html][Message mode]].
 
-- ~C-c C-e~ -- calls ~org-msg-preview~, it generates the final HTML email, save it into a temporary file and call the ~browse-url~ function on that file.
+- ~C-c C-e~ -- calls ~org-msg-preview~, it generates the final HTML email, saves it into a temporary file and calls the ~browse-url~ function on that file.
 - ~C-c C-k~ -- calls ~message-kill-buffer~
 - ~C-c C-s~ -- calls ~message-goto-subject~ (same as in [[https://www.gnu.org/software/emacs/manual/html_mono/message.html][Message mode]])
 - ~C-c C-b~ -- calls ~org-msg-goto-body~ (similar to ~message-goto-body~ in [[https://www.gnu.org/software/emacs/manual/html_mono/message.html][Message mode]])
-- ~C-c C-a~ -- calls ~org-msg-attach~, very similar to the ~org-attach~ function.  It lets you add or delete attachment for this email.  Attachment list is stored in the ~:attachment:~ property.
-- ~C-c C-c~ -- calls ~org-ctrl-c-ctrl-c~. *OrgMsg* configures ~org-msg-ctrl-c-ctrl-c~ as a final hook of [[https://orgmode.org/][Org mode]]. When ~org-msg-ctrl-c-ctrl-c~ is called in a *OrgMsg* buffer it generates the MIME message and send it.
+- ~C-c C-a~ -- calls ~org-msg-attach~, very similar to the ~org-attach~ function.  It lets you add or delete an attachment to this email.  The attachment list is stored in the ~:attachment:~ property.
+- ~C-c C-c~ -- calls ~org-ctrl-c-ctrl-c~. *OrgMsg* configures ~org-msg-ctrl-c-ctrl-c~ as a final hook of [[https://orgmode.org/][Org mode]]. When ~org-msg-ctrl-c-ctrl-c~ is called in a *OrgMsg* buffer it generates the MIME message and sends it.
 
-The ~org-msg-mode~ interactive function can be called to enable/disable *OrgMsg*.  By default, once the module is loaded, it is disable.  If you want to reply to an email without making use of *OrgMsg*, you should call that function before you call the reply-to function.
+The ~org-msg-mode~ interactive function can be called to enable/disable *OrgMsg*.  By default, once the module is loaded, it is disabled.  If you want to reply to an email without making use of *OrgMsg*, you should call that function before you call the reply-to function.
 
 To start composing a new *OrgMsg* email, you can call the interactive ~message-mail~ function.  If your ~mail-user-agent~ is ~message-user-agent~ (which is the by default Emacs configuration), ~compose-mail~ calls ~message-mail~ and is bound to ~[C-x m]~ by default.
 
@@ -33,7 +33,7 @@ To start composing a new *OrgMsg* email, you can call the interactive ~message-m
 
 *OrgMsg* depends on this module: [[https://github.com/hniksic/emacs-htmlize][emacs-htmlize]]
 
-The default Emacs Mail User Agent is [[https://www.gnu.org/software/emacs/manual/html_mono/message.html][Message]], if you are a  [[https://www.djcbsoftware.nl/code/mu/mu4e/][mu4e]] user, you need to define your mail user agent (see [[https://www.djcbsoftware.nl/code/mu/mu4e/Emacs-default.html#Emacs-default][mu4e documentation - Emacs-default]]) because  *OrgMsg* places some hooks and runs specific functions depending on the current Mail User Agent. The proper Mail User Agent should be defined before you activate *OrgMsg* (call the ~org-msg-mode~ function). Here is how you can define the Mail User Agent [[https://www.djcbsoftware.nl/code/mu/mu4e/][mu4e]].
+The default Emacs Mail User Agent is [[https://www.gnu.org/software/emacs/manual/html_mono/message.html][Message]], if you are a  [[https://www.djcbsoftware.nl/code/mu/mu4e/][mu4e]] user, you need to define your mail user agent (see [[https://www.djcbsoftware.nl/code/mu/mu4e/Emacs-default.html#Emacs-default][mu4e documentation - Emacs-default]]) because *OrgMsg* places some hooks and runs specific functions depending on the current Mail User Agent. The proper Mail User Agent should be defined before you activate *OrgMsg* (call the ~org-msg-mode~ function). Here is how you can define the Mail User Agent [[https://www.djcbsoftware.nl/code/mu/mu4e/][mu4e]].
 
 #+begin_src emacs-lisp
 (setq mail-user-agent 'mu4e-user-agent)
@@ -59,10 +59,10 @@ The following is my configuration which you can use as an example.
   (org-msg-mode)
 #+end_src
 
-The ~org-msg-greeting-fmt~ can be customized to configure the default greeting message.  If this format contains a ~%s~ token it is automatically replaced with the first name of the person you are replying to.  If ~org-msg-greeting-fmt-mailto~ is t, the first name it is formatted as mailto link.
+The ~org-msg-greeting-fmt~ can be customized to configure the default greeting message.  If this format contains a ~%s~ token it is automatically replaced with the first name of the person you are replying to.  If ~org-msg-greeting-fmt-mailto~ is ~t~, the first name it is formatted as mailto link.
 
-If ~org-msg-text-plain-alternative~ is ~t~, *OrgMsg* generates an ASCII export of the message and attach this export as a ~text/plain~ alternative to the HTML email.
+If ~org-msg-text-plain-alternative~ is ~t~, *OrgMsg* generates an ASCII export of the message and attaches it as a ~text/plain~ alternative to the HTML email.
 
 In order to avoid CSS conflict, *OrgMsg* performs inline replacement when it generates the final HTML message.  See the ~org-msg-enforce-css~ variable to customize the style (and the default ~org-msg-default-style~ variable for reference).
 
-Setting the org export option ~tex:dvipng~ or ~tex:dvisvgm~ is handeled correctly by this mode by producing inline images or inlining the generated SVG. Note that most mailclients however sadly do not display SVG content in mails so it might be best to stick to settings producing images unless you know your recipient's mailclient supports SVG.
+Setting the Org export option ~tex:dvipng~ or ~tex:dvisvgm~ is handeled correctly by this mode by producing inline images or inlining the generated SVG. Note that most mailclients however sadly do not display SVG content in mails so it might be best to stick to settings producing images unless you know your recipient's mailclient supports SVG.
